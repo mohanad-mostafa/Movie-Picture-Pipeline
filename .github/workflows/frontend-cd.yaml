@@ -32,7 +32,7 @@ jobs:
       - name: Install prettier
         run: |
           cd ./starter/frontend 
-          npm install prettier@2.8.8 --save-dev
+          npm install prettier --save-dev
 
       - name: Run lint check
         run: cd ./starter/frontend && npm run lint

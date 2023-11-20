@@ -15,9 +15,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Restore cache
         uses: actions/cache@v2
@@ -42,7 +42,7 @@ jobs:
           pipenv run test
       
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -64,19 +64,19 @@ jobs:
       - name: Tag Docker Image
         run: |
           cd ./starter/backend
-          docker tag backend:latest 434656266053.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          docker tag backend:latest 225552118750.dkr.ecr.us-east-1.amazonaws.com/backend:latest
 
       - name: Push Docker image to ECR
         run: |
           cd ./starter/backend
-          docker push 434656266053.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          docker push 225552118750.dkr.ecr.us-east-1.amazonaws.com/backend:latest
       
       - name: Kubeconfig Auth
         run: |
-          aws eks update-kubeconfig --name ops-prj4 --region us-east-1
+          aws eks update-kubeconfig --name cluster --region us-east-1
 
       - name: Deploy to Kubernetes
         run: |
           cd ./starter/backend/k8s
-          kustomize edit set image backend=434656266053.dkr.ecr.us-east-1.amazonaws.com/backend:latest
+          kustomize edit set image backend=225552118750.dkr.ecr.us-east-1.amazonaws.com/backend:latest
           kustomize build | kubectl apply -f -
