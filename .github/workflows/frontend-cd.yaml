@@ -1,8 +1,8 @@
-name: 'Frontend Continuous Deployment'
+name: 'Frontend CD'
 on:
   workflow_dispatch:
 
-  pull_request:
+  push:
     branches:
       - main
 
