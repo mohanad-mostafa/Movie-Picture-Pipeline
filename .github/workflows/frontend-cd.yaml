@@ -63,19 +63,19 @@ jobs:
       - name: Tag Docker Image
         run: |
           cd ./starter/frontend
-          docker tag frontend:latest 434656266053.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          docker tag frontend:latest 225552118750.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
 
       - name: Push Docker image to ECR
         run: |
           cd ./starter/frontend
-          docker push 434656266053.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          docker push 225552118750.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
       
       - name: Kubeconfig Auth
         run: |
-          aws eks update-kubeconfig --name ops-prj4 --region us-east-1
+          aws eks update-kubeconfig --name cluster --region us-east-1
       
       - name: Deploy to Kubernetes
         run: |
           cd ./starter/frontend/k8s
-          kustomize edit set image frontend=434656266053.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
+          kustomize edit set image frontend=225552118750.dkr.ecr.us-east-1.amazonaws.com/frontend:latest
           kustomize build | kubectl apply -f -
